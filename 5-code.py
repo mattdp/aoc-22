@@ -16,7 +16,7 @@ def input_parser(stacks,move_queue):
             tup = (a,b,c)
             move_queue.append(tup)
         else: # crate info line
-            stack_index = 0
+            stack_index = 1
             char_pos = 1
             while char_pos <= len(line):
                 if not line[char_pos].isspace():
@@ -26,13 +26,34 @@ def input_parser(stacks,move_queue):
             
     return stacks, move_queue
 
-def main():
+def main(part_number = 2):
 
-    stacks = list()
+    #for ease of debugging, keep input stack #s same as list slots
+    stacks = [None] 
     for i in range (9):
         stacks.append(deque())
     move_queue = deque()
 
-    print(input_parser(stacks,move_queue))
+    input_parser(stacks,move_queue)
+    print(stacks,move_queue)
+
+    #(quantity, from, to)
+    for m in move_queue:
+        if (part_number == 1):
+            for i in range(m[0]):
+                crate = stacks[m[1]].popleft()
+                stacks[m[2]].appendleft(crate)
+        elif (part_number == 2):
+            cratepile = list()
+            for i in range(m[0]):
+                crate = stacks[m[1]].popleft()
+                cratepile.append(crate)
+            for c in range(len(cratepile)):
+                stacks[m[2]].appendleft(cratepile[-c])
+
+    print_string = ""
+    for s in range(1,10):
+        print_string += stacks[s].popleft()
+    print(print_string)
 
 main()
