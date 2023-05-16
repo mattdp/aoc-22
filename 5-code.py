@@ -35,7 +35,6 @@ def main(part_number = 2):
     move_queue = deque()
 
     input_parser(stacks,move_queue)
-    print(stacks,move_queue)
 
     #(quantity, from, to)
     for m in move_queue:
@@ -48,12 +47,17 @@ def main(part_number = 2):
             for i in range(m[0]):
                 crate = stacks[m[1]].popleft()
                 cratepile.append(crate)
+            #cratepile has top crate first here...
             for c in range(len(cratepile)):
-                stacks[m[2]].appendleft(cratepile[-c])
+                crate = cratepile.pop()
+                stacks[m[2]].appendleft(crate)
+            #...and adds to new stack bottom up
 
     print_string = ""
     for s in range(1,10):
+        print(f"{s}: {stacks[s]}")
         print_string += stacks[s].popleft()
+
     print(print_string)
 
 main()
