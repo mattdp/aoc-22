@@ -1,5 +1,22 @@
 #!/usr/bin/python3
 
+def part_two():
+    f = open("./3-input.txt","r")
+    line_number = 0
+    total_priority = 0
+    lines = list(map(lambda x: x.strip(),f.readlines()))
+
+    while line_number + 2 < len(lines):
+        intersection = (set(lines[line_number]). 
+            intersection(lines[line_number+1]).
+            intersection(lines[line_number+2]).
+            pop()
+        )
+        priority = get_priority(intersection)
+        total_priority += priority
+        line_number += 3
+    return total_priority
+
 def part_one():
     f = open("./3-input.txt","r")
     line_number = 1
@@ -31,7 +48,7 @@ def get_priority(char):
         return ascii - 38
 
 def main():
-    print(part_one())
+    print(part_two())
 
 main()
 
