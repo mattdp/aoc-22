@@ -109,7 +109,7 @@ def frame(part_number = 1):
                 cumulative_points += score_line(line[0],line[2])
             else:
                 cumulative_points += score_line_again(line[0],line[2],False)
-        except Error:
+        except:
             print(f"Error: exited with {cumulative_points}")
     return cumulative_points
 
