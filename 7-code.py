@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
-# next: will need to add something about names to navigate
+# next: this is getting a #, optimize it for what the prompt's asking
 
 import itertools
+import re
 
 class Node:
 
@@ -17,11 +18,14 @@ class Node:
 
 class NodeHolder:
     def __init__(self):
-        nodes = {}
-        root_id = self.add_node(-1,"root")
+        self.nodes = {}
+        root_node = Node(-1,"root")
+        self.nodes[0] = root_node
+        self.root_id = root_node.id
     
-    def add_node(self,parent_id,files_size = 0):
-        added = Node(parent_id,files_size)
+    def add_node(self,parent_id,name,files_size = 0):
+        added = Node(parent_id,name,files_size)
+        self.nodes[added.id] = added
         self.nodes[parent_id].children_ids.append(added.id)
         return added.id
     
@@ -34,7 +38,7 @@ class NodeHolder:
 
     def get_children(self,node_id):
         ids = self.nodes[node_id].children_ids
-        return map(lambda x: self.nodes[x], ids)
+        return list(map(lambda x: self.get_node(x), ids))
     
     def total_size(self,node_id):
         node = self.get_node(node_id)
@@ -48,25 +52,30 @@ def part_one(nh,inputs):
     file_sizes_adder = 0
 
     for line in inputs:
+        print(line)
+
         if line[0] == "$" and file_sizes_adder > 0:
             nh.set_files_size(pwd_id,file_sizes_adder)
             file_sizes_adder = 0
-        
-        if line == "$ cd /":
+
+        if line[0:6] == "$ cd /":
             pwd_id = nh.root_id
-        elif line == "$ cd ..":
+        elif line[0:7] == "$ cd ..":
             pwd_id = nh.get_node(pwd_id).parent_id
-            if parent_id < 0:
-                raise Exception("Attempt to access parent of root node")
-        elif line[0:5] == "$ cd":
-            target_name = line[7:]
+            # if parent_id < 0:
+            #     raise Exception("Attempt to access parent of root node")
+        elif line[0:4] == "$ cd":
+            target_name = line[5:].strip()
             children = nh.get_children(pwd_id)
-            target_node = filter(lambda node: node.name == target_name,children)
+            target_node = list(filter(lambda node: node.name == target_name,children))
             pwd_id = target_node[0].id
-        elif "make a directory"
+        elif line[0:3] == "dir":
+            nh.add_node(pwd_id,line[4:].strip())
+        elif line[0:4] == "$ ls":
             pass
-        else "file addition"
-            pass
+        else:
+            match = re.match("^(\d+)*",line)
+            file_sizes_adder += int(match.group(1))
 
     return(nh.total_size(nh.root_id))
 
@@ -75,8 +84,8 @@ def main():
 
     node_holder = NodeHolder()   
     
-    part_one(node_holder,f.readlines())   
+    p1 = part_one(node_holder,f.readlines())   
     
-    print(root_node.total_size())
+    print(p1)
 
 main()
