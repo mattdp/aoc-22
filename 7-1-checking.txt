@@ -1,0 +1,31 @@
+All look valid, and with map the numbers add up
+Very confusing to me that my answer is too high
+
+X [('ccrvn', 76, 14614
+X 'ghgcfwg', 148, 29912
+X 'gqsbsmfm', 116, 99936
+X 'grrs', 155, 94496
+X 'hdh', 29, 30588
+X 'hdh', 130, 19858
+X 'hdh', 145, 19779
+X 'hdtg', 147, 19779
+X 'jdjps', 23, 12330
+X 'lqblqtng', 44, 16005
+X 'lqblqtng', 80, 82035
+X 'mhnfrn', 160, 30250
+X 'mjjrz', 56, 27688
+X 'pgvmpmn', 7, 18511
+X 'pllhlhr', 110, 70197
+X 'qjjgjzbl', 140, 78166
+X 'qqhwjn', 43, 47343
+X 'rlvnnmh', 73, 27340
+X 'sfvsdzs', 95, 7846
+X 'sjgvbd', 12, 27997
+X 'szs', 77, 92863
+X 'szs', 150, 29912
+X 'tcrhb', 119, 64293
+X 'twnj', 93, 29609
+X 'vzdfj', 55, 29653
+X 'wchrhl', 112, 73032
+X 'wwzpvb', 167, 4309
+X 'zrsz', 57, 9100)]
