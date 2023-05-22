@@ -40,11 +40,12 @@ class NodeHolder:
         ids = self.nodes[node_id].children_ids
         return list(map(lambda x: self.get_node(x), ids))
     
-    def total_size(self,node_id):
+    def total_size(self,node_id,original_caller = True):
         node = self.get_node(node_id)
         total = node.files_size
+        print(f"{node.files_size} for node {node_id} '{node.name}', root {original_caller}")
         for child_id in node.children_ids:
-            total += self.total_size(child_id)
+            total += self.total_size(child_id,node_id)
         return total
         
 def part_one(nh,inputs):
@@ -70,14 +71,27 @@ def part_one(nh,inputs):
             target_node = list(filter(lambda node: node.name == target_name,children))
             pwd_id = target_node[0].id
         elif line[0:3] == "dir":
-            nh.add_node(pwd_id,line[4:].strip())
+            dirname = line[4:].strip()
+            #don't double-add if comes back to same folder - was a hole in my solution but didn't cause a change
+            if dirname not in list(map(lambda node: node.name,nh.get_children(pwd_id))):
+                nh.add_node(pwd_id,dirname)
         elif line[0:4] == "$ ls":
             pass
         else:
             match = re.match("^(\d+)*",line)
             file_sizes_adder += int(match.group(1))
 
-    return(nh.total_size(nh.root_id))
+    select_totals = 0
+    all_nodes = list(nh.nodes.values())
+    nodes_added = []
+    for node in all_nodes:
+        size = nh.total_size(node.id)
+        if size > 0 and size <= 100000:
+            select_totals += size
+            print(f"\n**\n{size} added to total on behalf of node {node.id}\nNew total:{select_totals}\n**\n")
+            nodes_added.append((node.name,node.id,size))
+    print(sorted(nodes_added))
+    return select_totals
 
 def main():
     f = open("./7-input.txt","r")
