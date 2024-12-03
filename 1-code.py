@@ -3,6 +3,7 @@
 # can do this all in one traversal w/o sort, but didn't figure out distance was absolute until split it out for debugging
 
 import re
+from collections import deque
 
 #part two
 def main(part=2):
@@ -19,14 +20,33 @@ def main(part=2):
     left.sort()
     right.sort()
 
-    if(part=1):
+    if(part==1):
         for i in range (0,len(left)):
             distance = abs(right[i] - left[i])
             total_distance += distance
             print(f"{left[i]} and {right[i]} input, {distance} distance, new total {total_distance}") 
-    else():
-        #todo
+        print(total_distance)
+    else:
+        similarity = 0
 
-    print(total_distance)
+        left = deque(left)
+        right = deque(right)
+
+        while left:
+            pop_counter = 0
+            similarity_counter = 0
+            checking = left.popleft()
+            for r in range(0,len(right)):
+                if right[r] < checking:
+                    pop_counter += 1
+                if right[r] == checking:
+                    similarity_counter += 1
+                if right[r] > checking:
+                    break
+            for _ in range(pop_counter):
+                right.popleft()
+            similarity += checking * similarity_counter
+
+        print (similarity)
 
 main()
