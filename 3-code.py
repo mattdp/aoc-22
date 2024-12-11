@@ -2,6 +2,15 @@
 
 import re
 
+part2brainstorm = """
+
+regex approach: could use location of group and locations of do/dont 
+to figure out what's relevant as iterate through list of matches. 
+function for position and which of do/don't apply there
+
+could also parse the text, chopping off front until reach a do, don't, or mult
+"""
+
 def main(part=1):
     f = open("./3-input.txt","r")
     total_sum = 0
